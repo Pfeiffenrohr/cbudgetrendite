@@ -34,7 +34,7 @@ public class ComputeRendite {
         Calendar calend = Calendar.getInstance();
         List<Anlage> vecAnlagen= apicall.getAllAnalgen();
         List<Konto>  vecKonten = apicall.getAllKonten();
-        for (int i=0; i<vecKonten.size();i++)
+        for (int i=0; i<vecKonten.size();i++) 
         {
                       
            // LOG.info("Konto " + vecKonten.get(i).getKontoname());
