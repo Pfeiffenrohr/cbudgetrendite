@@ -26,9 +26,12 @@ public class ComputeRendite {
     public void rendite() {
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String akt_datum = formatter.format(cal.getTime());
+        String aktdatum = formatter.format(cal.getTime());
         cal.set(Calendar.DAY_OF_YEAR, 1);
-        String start_datum = formatter.format(cal.getTime());
+        String startdatum = formatter.format(cal.getTime());
+        Calendar calbegin = Calendar.getInstance();
+        calbegin.add(Calendar.YEAR,-1);
+        Calendar calend = Calendar.getInstance();
         List<Anlage> vecAnlagen= apicall.getAllAnalgen();
         List<Konto>  vecKonten = apicall.getAllKonten();
         for (int i=0; i<vecKonten.size();i++)
@@ -40,14 +43,25 @@ public class ComputeRendite {
         {
             if (vecAnlagen.get(i).getRendite().equals("N"))
             {
-              //  LOG.debug("Keine Berechnung für Anlage "+vecAnlagen.get(i).getName() );
+              //  LOG.debug("Keine Berechnung Anlage "+vecAnlagen.get(i).getName() );
                 continue;
             }
             for (int j=0; j<vecKonten.size();j++) {
                 
                 if (vecKonten.get(j).getMode().equals(vecAnlagen.get(i).getName()))
                 {
-                    LOG.info("Berechne Konto "+ vecKonten.get(j).getKontoname() +" für Anlage "+ vecAnlagen.get(i).getName());
+                    LOG.info("Berechne Konto "+ vecKonten.get(j).getKontoname() +" fuer Anlage "+ vecAnlagen.get(i).getName());
+                    while (calend.after(calbegin)) {
+                        //Hole den aktuellen Kontostand     
+                        String begindate=formatter.format(calbegin.getTime());
+                        String kontostand = apicall.getAktKontostand(vecKonten.get(j).getId(),begindate);
+                        LOG.info("Aktkontostand = " +kontostand );
+                       
+                        
+                        calbegin.add(Calendar.DATE, 1); 
+                        break;
+                        
+                    }
                 }
             }
            

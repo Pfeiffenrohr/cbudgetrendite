@@ -64,4 +64,19 @@ public class APIcall {
         }
         return list;
     }
+    
+    public String getAktKontostand( Integer konto, String enddate) {
+        LOG.info("Start getAktKonotstand");
+           
+        RestTemplate restTemplate = new RestTemplate();
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http").host(host).port(port).path("/transaction_get_sum")
+                .queryParam("startdate", "2011-01-01")
+                .queryParam("enddate", enddate)
+                .queryParam("konto", konto)
+                .build();
+        String uri=uriComponents.toUriString();
+        String result = restTemplate.getForObject(uri, String.class);
+        return result;
+    }
 }

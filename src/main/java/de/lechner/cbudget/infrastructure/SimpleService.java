@@ -12,8 +12,8 @@ public class SimpleService {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
     @Autowired
     ComputeRendite cr;
- 
+ //sdf
     public void processData() {
-        cr.rendite();
+        cr.rendite();   
     }
 }
