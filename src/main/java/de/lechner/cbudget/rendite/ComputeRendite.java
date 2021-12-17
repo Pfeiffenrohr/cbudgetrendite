@@ -44,7 +44,7 @@ public class ComputeRendite {
             if (vecAnlagen.get(i).getRendite().equals("N"))
             {
               //  LOG.debug("Keine Berechnung Anlage "+vecAnlagen.get(i).getName() );
-                continue;
+                continue; 
             }
             for (int j=0; j<vecKonten.size();j++) {
                 
