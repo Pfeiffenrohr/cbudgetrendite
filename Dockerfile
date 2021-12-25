@@ -20,7 +20,7 @@ RUN mkdir /var/lib/budgetserver
 RUN mkdir /var/lib/exchange
 WORKDIR /var/lib/budgetserver/
 ADD build/libs/CBudgetRendite-0.0.1-SNAPSHOT.jar /var/lib/budgetserver/budgetrendite.jar
-ADD scripts/budgetRead.sh /var/lib/budgetserver/budgetRendite.sh
+ADD scripts/budgetRendite.sh /var/lib/budgetserver/budgetRendite.sh
 RUN chmod 777 /var/lib/budgetserver/budgetRendite.sh
 RUN dos2unix /var/lib/budgetserver/budgetRendite.sh
 ENTRYPOINT ["/var/lib/budgetserver/budgetRendite.sh"]
