@@ -1,5 +1,6 @@
 package de.lechner.cbudget.apicall;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import de.lechner.cbudget.entities.Anlage;
 import de.lechner.cbudget.entities.Konto;
+import de.lechner.cbudget.entities.Rendite;
 import de.lechner.cbudget.infrastructure.SimpleService;
 
 import org.slf4j.Logger;
@@ -66,17 +68,98 @@ public class APIcall {
     }
     
     public String getAktKontostand( Integer konto, String enddate) {
-        LOG.info("Start getAktKonotstand");
+       // LOG.info("Start getAktKonotstand");
            
         RestTemplate restTemplate = new RestTemplate();
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http").host(host).port(port).path("/transaction_get_sum")
-                .queryParam("startdate", "2011-01-01")
+                .queryParam("startdate", "2001-01-01")
                 .queryParam("enddate", enddate)
                 .queryParam("konto", konto)
                 .build();
         String uri=uriComponents.toUriString();
+        LOG.debug("URI = "+ uri);
         String result = restTemplate.getForObject(uri, String.class);
+        if (result == null)
+        {
+        	result = "0.0";
+        }
         return result;
     }
+    
+    public String getErtrag( Integer konto, String startdate, String enddate) {
+        // LOG.info("Start getAktKonotstand");
+            
+         RestTemplate restTemplate = new RestTemplate();
+         UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                 .scheme("http").host(host).port(port).path("/transaction_get_sum")
+                 .queryParam("startdate", startdate)
+                 .queryParam("enddate", enddate)
+                 .queryParam("konto", konto)
+                 .queryParam("nane", "Ertrag")
+                 .queryParam("categorie", "42")
+                 .build();
+         String uri=uriComponents.toUriString();
+         LOG.debug("URI = "+ uri);
+         String result = restTemplate.getForObject(uri, String.class);
+         if (result == null)
+         {
+         	result = "0.0";
+         }
+         return result;
+     }
+    
+    public Rendite getRenditeByDateAndName( Integer konto, String date) {
+        // LOG.info("Start getAktKonotstand");
+            
+         RestTemplate restTemplate = new RestTemplate();
+         Rendite rendite = new Rendite();
+         UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                 .scheme("http").host(host).port(port).path("/renditeByDateAndKonto")
+                 .queryParam("date", date)
+                 .queryParam("konto", konto)
+                 .build();
+         String uri=uriComponents.toUriString();
+         LOG.debug("URI = "+ uri);
+         ResponseEntity<Rendite> response = restTemplate.getForEntity(uri, Rendite.class);
+         if (response.hasBody()) {
+
+             rendite = response.getBody();
+             
+         }
+         else
+         {
+        	 rendite= null;
+         }
+         if (rendite == null)
+         {
+        	 LOG.info("Rendite for " + konto + " and "+ date + " not found");
+         }
+         else
+         {
+         LOG.info("Get Rendite = " + rendite.getKonto());
+         }
+         return rendite;
+     }
+    
+    public void insertRendite( Integer konto, Double value, String datum) {
+       Rendite rendite = new Rendite();
+       rendite.setKonto(konto);;
+       rendite.setValue(value);       
+       try {
+    	   rendite.setDatum(new SimpleDateFormat("yyyy-MM-dd").parse(datum));
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}	
+    	
+         RestTemplate restTemplate = new RestTemplate();
+         UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                 .scheme("http").host(host).port(port).path("/rendite")
+                 .build();
+         String uri=uriComponents.toUriString();  
+         LOG.debug("URI = "+ uri);
+     	 restTemplate.postForEntity(uri,rendite, Rendite.class);
+        
+     }
 }
