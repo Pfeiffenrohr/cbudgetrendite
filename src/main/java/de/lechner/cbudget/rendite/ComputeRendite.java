@@ -26,8 +26,6 @@ public class ComputeRendite {
 	public void rendite() {
 		Calendar calakt = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
-		calakt.set(Calendar.DAY_OF_YEAR, 1);
 		Calendar calend = Calendar.getInstance();
 		Calendar calbegin = Calendar.getInstance();
 
@@ -99,16 +97,16 @@ public class ComputeRendite {
 						}
 						String strErtrag = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
 						Double ertrag = new Double(strErtrag);
-						LOG.info("Ertrag " + strErtrag);
+						//LOG.info("Ertrag " + strErtrag);
 						Double ertragProjahr = ertrag * (365.0 / count);
-						LOG.info("ErtragproJahr =" + ertragProjahr);
+						//LOG.info("ErtragproJahr =" + ertragProjahr);
 						Double rendite =0.0;
 						if (dayAvg != 0.0) {
-							LOG.info("dayAvg =" + dayAvg);
+							//LOG.info("dayAvg =" + dayAvg);
 							rendite = (ertragProjahr * 100) / dayAvg;
 						}
 							
-							LOG.info("Rendite =" + rendite);
+							//LOG.info("Rendite =" + rendite);
 							
 							apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate);
 						//} else {

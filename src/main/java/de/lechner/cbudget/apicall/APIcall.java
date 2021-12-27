@@ -28,9 +28,9 @@ public class APIcall {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
     
     public List<Anlage> getAllAnalgen() {
-        LOG.info("Start getAllAnlagen");
-        LOG.info("Host = "+ host);
-        LOG.info("Port = "+ port);        
+     //   LOG.info("Start getAllAnlagen");
+     //   LOG.info("Host = "+ host);
+     //   LOG.info("Port = "+ port);        
         List<Anlage> list = new ArrayList<Anlage>();
         RestTemplate restTemplate = new RestTemplate();
         UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host(host).port(port)
@@ -48,9 +48,9 @@ public class APIcall {
     }
     
     public List<Konto> getAllKonten() {
-        LOG.info("Start getAllAnlagen");
-        LOG.info("Host = "+ host);
-        LOG.info("Port = "+ port);        
+      //  LOG.info("Start getAllAnlagen");
+       // LOG.info("Host = "+ host);
+       // LOG.info("Port = "+ port);        
         List<Konto> list = new ArrayList<Konto>();
         RestTemplate restTemplate = new RestTemplate();
         UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host(host).port(port)
@@ -78,7 +78,7 @@ public class APIcall {
                 .queryParam("konto", konto)
                 .build();
         String uri=uriComponents.toUriString();
-        LOG.debug("URI = "+ uri);
+      //  LOG.debug("URI = "+ uri);
         String result = restTemplate.getForObject(uri, String.class);
         if (result == null)
         {
@@ -100,7 +100,7 @@ public class APIcall {
                  .queryParam("categorie", "42")
                  .build();
          String uri=uriComponents.toUriString();
-         LOG.debug("URI = "+ uri);
+        // LOG.debug("URI = "+ uri);
          String result = restTemplate.getForObject(uri, String.class);
          if (result == null)
          {
@@ -120,7 +120,7 @@ public class APIcall {
                  .queryParam("konto", konto)
                  .build();
          String uri=uriComponents.toUriString();
-         LOG.debug("URI = "+ uri);
+        // LOG.debug("URI = "+ uri);
          ResponseEntity<Rendite> response = restTemplate.getForEntity(uri, Rendite.class);
          if (response.hasBody()) {
 
@@ -133,11 +133,11 @@ public class APIcall {
          }
          if (rendite == null)
          {
-        	 LOG.info("Rendite for " + konto + " and "+ date + " not found");
+        	// LOG.info("Rendite for " + konto + " and "+ date + " not found");
          }
          else
          {
-         LOG.info("Get Rendite = " + rendite.getKonto());
+        // LOG.info("Get Rendite = " + rendite.getKonto());
          }
          return rendite;
      }
@@ -158,7 +158,7 @@ public class APIcall {
                  .scheme("http").host(host).port(port).path("/rendite")
                  .build();
          String uri=uriComponents.toUriString();  
-         LOG.debug("URI = "+ uri);
+        // LOG.debug("URI = "+ uri);
      	 restTemplate.postForEntity(uri,rendite, Rendite.class);
         
      }
