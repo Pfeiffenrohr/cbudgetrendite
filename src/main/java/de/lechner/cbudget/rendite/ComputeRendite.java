@@ -24,22 +24,23 @@ public class ComputeRendite {
 	private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
 
 	public void rendite() {
-		Calendar calakt = Calendar.getInstance();
+		Calendar calAnfang = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar calend = Calendar.getInstance();
 		Calendar calbegin = Calendar.getInstance();
-
+		calAnfang.add(Calendar.YEAR, -6);
 		List<Anlage> vecAnlagen = apicall.getAllAnalgen();
 		List<Konto> vecKonten = apicall.getAllKonten();
-        calend.add(Calendar.YEAR, -4);
-        calbegin.add(Calendar.YEAR, -5);
-        while (calend.before(calakt))
+		
+        //calend.add(Calendar.YEAR, -1);
+        calbegin.add(Calendar.YEAR, -1);
+        while (calend.after(calAnfang))
         {
         	LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " + 
         formatter.format(calend.getTime()));
 		renditeProTag(vecAnlagen, vecKonten, calend, calbegin);
-		calend.add(Calendar.DATE, 1);
-		calbegin.add(Calendar.DATE, 1);
+		calend.add(Calendar.DATE, -1);
+		calbegin.add(Calendar.DATE, -1);
         }
         
 	}
