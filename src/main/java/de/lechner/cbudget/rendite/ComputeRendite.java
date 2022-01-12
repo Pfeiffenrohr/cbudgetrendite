@@ -68,6 +68,8 @@ public class ComputeRendite {
 					int count = 1;
 					int sumcount = 0;
 					Double sum = 0.0;
+					Double amount =0.0;
+					Boolean gotAmount=false;
 					calakt = (Calendar) calend.clone();
 					if (apicall.getRenditeByDateAndName(vecKonten.get(j).getId(), enddate) == null) {
 						while (calakt.after(calbegin)) {
@@ -75,7 +77,10 @@ public class ComputeRendite {
 							String dynEnddate = formatter.format(calakt.getTime());
 							String strKontostand = apicall.getAktKontostand(vecKonten.get(j).getId(), dynEnddate);
 							Double kontostand = new Double(strKontostand);
-
+							if (! gotAmount) {
+							    amount=kontostand;
+							    gotAmount=true;
+							}
 							if (kontostand > -0.001 && kontostand < 0.001) {
 								calakt.add(Calendar.DATE, -1);
 								continue;
@@ -109,7 +114,7 @@ public class ComputeRendite {
 							
 							//LOG.info("Rendite =" + rendite);
 							
-							apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate);
+							apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate,amount);
 						//} else {
 						//	LOG.info("Keine Rendite,. da kein Ertrag ");
 						// }

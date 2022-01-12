@@ -144,7 +144,7 @@ public class APIcall {
     
     public void insertRendite( Integer konto, Double value, String datum, Double amount) {
        Rendite rendite = new Rendite();
-       rendite.setKonto(konto);;
+       rendite.setKonto(konto);
        rendite.setValue(value);
        rendite.setAmount(amount);
        try {
