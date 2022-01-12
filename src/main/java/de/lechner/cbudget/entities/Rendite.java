@@ -9,18 +9,21 @@ public class Rendite {
 	private Integer konto;
 	private Double value;
 	private Date datum;
+	private Double amount;
 	
 	
 	
     public Rendite() {
        
     }
-    public Rendite(Integer id, Integer konto, Double value, Date datum) {
+    
+    public Rendite(Integer id, Integer konto, Double value, Date datum, Double amount) {
         super();
         this.id = id;
         this.konto = konto;
         this.value = value;
         this.datum = datum;
+        this.amount = amount;
     }
     public Integer getId() {
         return id;
@@ -46,4 +49,11 @@ public class Rendite {
     public void setDatum(Date datum) {
         this.datum = datum;
     }
+    public Double getAmount() {
+        return amount;
+    }
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+    
 }
