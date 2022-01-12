@@ -29,10 +29,11 @@ public class ComputeRendite {
 		Calendar calend = Calendar.getInstance();
 		Calendar calbegin = Calendar.getInstance();
 		calAnfang.add(Calendar.YEAR, -6);
+		
 		List<Anlage> vecAnlagen = apicall.getAllAnalgen();
 		List<Konto> vecKonten = apicall.getAllKonten();
 		
-        //calend.add(Calendar.YEAR, -1);
+        calend.add(Calendar.DATE, -1);
         calbegin.add(Calendar.YEAR, -1);
         while (calend.after(calAnfang))
         {
@@ -116,8 +117,8 @@ public class ComputeRendite {
 
 					
 				} else {
-					LOG.info("Already computed"  + vecKonten.get(j).getKontoname() + " fuer Anlage "
-							+ vecAnlagen.get(i).getName());
+					/*LOG.info("Already computed"  + vecKonten.get(j).getKontoname() + " fuer Anlage "
+							+ vecAnlagen.get(i).getName());*/
 				}
 				}
 			}
