@@ -113,8 +113,10 @@ public class ComputeRendite {
 						}
 							
 							//LOG.info("Rendite =" + rendite);
-							
+							if (rendite > -900)
+							{
 							apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate,amount);
+							}
 						//} else {
 						//	LOG.info("Keine Rendite,. da kein Ertrag ");
 						// }
