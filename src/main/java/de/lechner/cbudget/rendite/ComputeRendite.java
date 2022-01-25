@@ -86,12 +86,11 @@ public class ComputeRendite {
 							}
 							if (kontostand > -0.001 && kontostand < 0.001) {
 								calakt.add(Calendar.DATE, -1);
-								continue;
+								continue; 
 							}  
 							// LOG.info("Aktkontostand = " +kontostand );
 							calakt.add(Calendar.DATE, -1);
 							sum = sum + (kontostand * count);
-
 							sumcount = sumcount + count;
 							count++;
 						}
