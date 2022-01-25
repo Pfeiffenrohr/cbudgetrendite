@@ -24,6 +24,7 @@ public class ComputeRendite {
 	private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
 
 	public void rendite() {
+	    LOG.info("Start computing rendite ...");
 		Calendar calAnfang = Calendar.getInstance();
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar calend = Calendar.getInstance();
@@ -31,18 +32,20 @@ public class ComputeRendite {
 		calAnfang.add(Calendar.YEAR, -6);
 		List<Anlage> vecAnlagen = apicall.getAllAnalgen();
 		List<Konto> vecKonten = apicall.getAllKonten();
-		
+		 long timeBegin = System.currentTimeMillis();
         calend.add(Calendar.DATE, -1);
         calbegin.add(Calendar.YEAR, -1);
         while (calend.after(calAnfang))
         {
-        	LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " + 
-        formatter.format(calend.getTime()));
+        	//LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " + 
+            // formatter.format(calend.getTime()));
 		renditeProTag(vecAnlagen, vecKonten, calend, calbegin);
 		calend.add(Calendar.DATE, -1);
 		calbegin.add(Calendar.DATE, -1);
         }
-        
+        long timeEnd = System.currentTimeMillis();
+        Integer duration = (int) ((timeEnd - timeBegin) / 1000);
+        LOG.info("Duration: " + computeDuration(duration));
 	}
 
 	private void renditeProTag(List<Anlage> vecAnlagen, List<Konto> vecKonten, Calendar calend, Calendar calbegin) {
@@ -63,8 +66,8 @@ public class ComputeRendite {
 			for (int j = 0; j < vecKonten.size(); j++) {
 
 				if (vecKonten.get(j).getMode().equals(vecAnlagen.get(i).getName())) {
-					LOG.info("Berechne Konto " + vecKonten.get(j).getKontoname() + " fuer Anlage "
-							+ vecAnlagen.get(i).getName());
+					//LOG.info("Berechne Konto " + vecKonten.get(j).getKontoname() + " fuer Anlage "
+					//		+ vecAnlagen.get(i).getName());
 					int count = 1;
 					int sumcount = 0;
 					Double sum = 0.0;
@@ -132,5 +135,21 @@ public class ComputeRendite {
 		}
 
 	}
+	private String computeDuration(Integer duration)
+    {
+       String formatedDuration="";
+       if (duration > 59)
+       {
+           int mins = duration / 60;
+           duration = duration - mins * 60;
+           int secs = duration;
+           formatedDuration=mins +" Minuten, "+secs+" Sekunden";
+       }
+       else
+       {
+           formatedDuration= duration +" Sekunden";
+       }
+       return formatedDuration;
+    }
 
 }
