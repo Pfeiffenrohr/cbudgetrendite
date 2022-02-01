@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import de.lechner.cbudget.apicall.APIcall;
 import de.lechner.cbudget.entities.Anlage;
 import de.lechner.cbudget.entities.Konto;
+import de.lechner.cbudget.entities.Rendite;
 import de.lechner.cbudget.infrastructure.SimpleService;
 
 import org.slf4j.Logger;
@@ -73,8 +74,19 @@ public class ComputeRendite {
 					Double sum = 0.0;
 					Double amount =0.0;
 					Boolean gotAmount=false;
+					Integer renditeId;
 					calakt = (Calendar) calend.clone();
-					if (apicall.getRenditeByDateAndName(vecKonten.get(j).getId(), enddate) == null) {
+					Rendite renditecall= apicall.getRenditeByDateAndName(vecKonten.get(j).getId(), enddate);
+					if (renditecall == null || renditecall.getDirty() != 0) {
+					  // LOG.info("Dirty = " +  renditecall.getDirty());
+					    if (renditecall != null)
+					    {
+					        renditeId=renditecall.getId();
+					    }
+					    else
+					    {
+					        renditeId=null;
+					    }
 						while (calakt.after(calbegin)) {
 							// Hole den aktuellen Kontostand
 							String dynEnddate = formatter.format(calakt.getTime());
@@ -117,7 +129,7 @@ public class ComputeRendite {
 							//LOG.info("Rendite =" + rendite);
 							if (rendite > -900)
 							{
-							apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate,amount);
+							apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate,amount,renditeId);
 							}
 						//} else {
 						//	LOG.info("Keine Rendite,. da kein Ertrag ");

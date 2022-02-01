@@ -142,11 +142,16 @@ public class APIcall {
          return rendite;
      }
     
-    public void insertRendite( Integer konto, Double value, String datum, Double amount) {
+    public void insertRendite( Integer konto, Double value, String datum, Double amount, Integer renditeId) {
        Rendite rendite = new Rendite();
+       if (renditeId != null)
+       {
+       rendite.setId(renditeId);
+       }
        rendite.setKonto(konto);
        rendite.setValue(value);
        rendite.setAmount(amount);
+       rendite.setDirty(0);
        try {
     	   rendite.setDatum(new SimpleDateFormat("yyyy-MM-dd").parse(datum));
 			} catch (Exception e)
