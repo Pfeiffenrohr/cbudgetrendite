@@ -148,9 +148,9 @@ public class ComputeRendite {
                         Double ertrag = new Double(strErtrag);
                         String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
                         
-                        LOG.info("Konto: "+ vecKonten.get(j).getId());
-                        LOG.info("Ertrag alt: "+strErtragold);
-                        LOG.info("Ertrag neu: "+strErtrag);
+                        //LOG.info("Konto: "+ vecKonten.get(j).getId());
+                        //LOG.info("Ertrag alt: "+strErtragold);
+                        //LOG.info("Ertrag neu: "+strErtrag);
                         //Double ertrag =db.getKategorienAlleSummeWhere(startdate, enddate, where);
                         // LOG.info("Ertrag " + strErtrag);
                         Double ertragProjahr = ertrag * (365.0 / count);
