@@ -5,3 +5,4 @@ cbudgetrendite:
       inputdir: /var/lib/exchange/
       budgetserverhost: 192.168.2.29
       budgetserverport: 8092
+      databaseurl: jdbc:postgresql://192.168.2.29:5432/

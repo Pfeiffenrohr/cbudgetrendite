@@ -96,7 +96,7 @@ public class APIcall {
                  .queryParam("startdate", startdate)
                  .queryParam("enddate", enddate)
                  .queryParam("konto", konto)
-                 .queryParam("nane", "Ertrag")
+                 .queryParam("name", "Ertrag")
                  .queryParam("categorie", "42")
                  .build();
          String uri=uriComponents.toUriString();
@@ -108,6 +108,46 @@ public class APIcall {
          }
          return result;
      }
+    
+    public String getErtragWithRuleID( Integer konto, String startdate, String enddate, Integer ruleId) {
+         RestTemplate restTemplate = new RestTemplate();
+         UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                 .scheme("http").host(host).port(port).path("/transaction_get_sum")
+                 .queryParam("startdate", startdate)
+                 .queryParam("enddate", enddate)
+                 .queryParam("konto", konto)
+                 .queryParam("ruleid", ruleId)
+                 .build();
+         String uri=uriComponents.toUriString();
+         //LOG.info("getErtragWithRuleID with konto");
+         //LOG.info("URI = "+ uri);
+         String result = restTemplate.getForObject(uri, String.class);
+         if (result == null)
+         {
+            result = "0.0";
+         }
+         return result;
+     }
+    
+    //same without konto
+    public String getErtragWithRuleID(String startdate, String enddate, Integer ruleId) {
+        RestTemplate restTemplate = new RestTemplate();
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("http").host(host).port(port).path("/transaction_get_sum")
+                .queryParam("startdate", startdate)
+                .queryParam("enddate", enddate)
+                .queryParam("ruleid", ruleId)
+                .build();
+        String uri=uriComponents.toUriString();
+        //LOG.info("getErtragWithRuleID without konto");
+        //LOG.info("URI = "+ uri);
+        String result = restTemplate.getForObject(uri, String.class);
+        if (result == null)
+        {
+           result = "0.0";
+        }
+        return result;
+    }
     
     public Rendite getRenditeByDateAndName( Integer konto, String date) {
         // LOG.info("Start getAktKonotstand");
