@@ -34,7 +34,7 @@ public class ComputeRendite {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calend = Calendar.getInstance();
         Calendar calbegin = Calendar.getInstance();
-        calAnfang.add(Calendar.YEAR, -1);
+        calAnfang.add(Calendar.YEAR, -10);
         List<Anlage> vecAnlagen = apicall.getAllAnalgen();
         List<Konto> vecKonten = apicall.getAllKonten();
         long timeBegin = System.currentTimeMillis();
@@ -146,7 +146,7 @@ public class ComputeRendite {
                             strErtrag = apicall.getErtragWithRuleID(startdate, enddate,ruleID);
                         }
                         Double ertrag = new Double(strErtrag);
-                        String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
+                       // String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
                         
                         //LOG.info("Konto: "+ vecKonten.get(j).getId());
                         //LOG.info("Ertrag alt: "+strErtragold);
