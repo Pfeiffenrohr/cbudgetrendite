@@ -41,8 +41,8 @@ public class ComputeRendite {
         calend.add(Calendar.DATE, -1);
         calbegin.add(Calendar.YEAR, -1);
         while (calend.after(calAnfang)) {
-             LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " +
-             formatter.format(calend.getTime()));
+            /*LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " +
+            formatter.format(calend.getTime()));*/
             renditeProTag(vecAnlagen, vecKonten, calend, calbegin);
             calend.add(Calendar.DATE, -1);
             calbegin.add(Calendar.DATE, -1);
