@@ -34,16 +34,15 @@ public class ComputeRendite {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calend = Calendar.getInstance();
         Calendar calbegin = Calendar.getInstance();
-        calAnfang.add(Calendar.YEAR, -5);
+        calAnfang.add(Calendar.YEAR, -15);
         List<Anlage> vecAnlagen = apicall.getAllAnalgen();
         List<Konto> vecKonten = apicall.getAllKonten();
         long timeBegin = System.currentTimeMillis();
         calend.add(Calendar.DATE, -1);
         calbegin.add(Calendar.YEAR, -1);
         while (calend.after(calAnfang)) {
-            // LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis
-            // " +
-            // formatter.format(calend.getTime()));
+            /*LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " +
+            formatter.format(calend.getTime()));*/
             renditeProTag(vecAnlagen, vecKonten, calend, calbegin);
             calend.add(Calendar.DATE, -1);
             calbegin.add(Calendar.DATE, -1);
@@ -81,6 +80,11 @@ public class ComputeRendite {
                     Integer renditeId;
                     calakt = (Calendar) calend.clone();
                     Rendite renditecall = apicall.getRenditeByDateAndName(vecKonten.get(j).getId(), enddate);
+                 /*  if (vecKonten.get(j).getId()==27)
+                   {
+                       LOG.info("Renditecall = "+ renditecall.getAmount());
+                   }*/
+                    
                     if (renditecall == null || renditecall.getDirty() != 0) {
                         // LOG.info("Dirty = " + renditecall.getDirty());
                         if (renditecall != null) {
