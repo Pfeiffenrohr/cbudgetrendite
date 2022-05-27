@@ -30,11 +30,12 @@ public class ComputeRendite {
 
     public void rendite() {
         LOG.info("Start computing rendite ...");
+        int anzahl = 0;
         Calendar calAnfang = Calendar.getInstance();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calend = Calendar.getInstance();
         Calendar calbegin = Calendar.getInstance();
-        calAnfang.add(Calendar.YEAR, -15);
+        calAnfang.add(Calendar.YEAR, -16);
         List<Anlage> vecAnlagen = apicall.getAllAnalgen();
         List<Konto> vecKonten = apicall.getAllKonten();
         long timeBegin = System.currentTimeMillis();
@@ -43,20 +44,22 @@ public class ComputeRendite {
         while (calend.after(calAnfang)) {
             /*LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " +
             formatter.format(calend.getTime()));*/
-            renditeProTag(vecAnlagen, vecKonten, calend, calbegin);
+            anzahl=anzahl+renditeProTag(vecAnlagen, vecKonten, calend, calbegin);
             calend.add(Calendar.DATE, -1);
             calbegin.add(Calendar.DATE, -1);
         }
         long timeEnd = System.currentTimeMillis();
         Integer duration = (int) ((timeEnd - timeBegin) / 1000);
         LOG.info("Duration: " + computeDuration(duration));
+        LOG.info("Berechnete Renditen :"+anzahl); 
     }
 
-    private void renditeProTag(List<Anlage> vecAnlagen, List<Konto> vecKonten, Calendar calend, Calendar calbegin) {
+    private Integer renditeProTag(List<Anlage> vecAnlagen, List<Konto> vecKonten, Calendar calend, Calendar calbegin) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calakt = Calendar.getInstance();
         String startdate = formatter.format(calbegin.getTime());
         String enddate = formatter.format(calend.getTime());
+        int anzahl =0;
         for (int i = 0; i < vecKonten.size(); i++) {
 
             // LOG.info("Konto " + vecKonten.get(i).getKontoname());
@@ -168,6 +171,7 @@ public class ComputeRendite {
                         // LOG.info("Rendite =" + rendite);
                         if (rendite > -900) {
                             apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate, amount, renditeId);
+                            anzahl ++;
                         }
                         // } else {
                         // LOG.info("Keine Rendite,. da kein Ertrag ");
@@ -183,6 +187,7 @@ public class ComputeRendite {
             }
 
         }
+        return anzahl;
     }
 
     private String computeDuration(Integer duration) {
