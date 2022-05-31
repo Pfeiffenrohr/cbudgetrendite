@@ -35,7 +35,7 @@ public class ComputeRendite {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calend = Calendar.getInstance();
         Calendar calbegin = Calendar.getInstance();
-        calAnfang.add(Calendar.YEAR, -16);
+        calAnfang.add(Calendar.YEAR, -1);
         List<Anlage> vecAnlagen = apicall.getAllAnalgen();
         List<Konto> vecKonten = apicall.getAllKonten();
         long timeBegin = System.currentTimeMillis();
@@ -95,33 +95,6 @@ public class ComputeRendite {
                         } else {
                             renditeId = null;
                         }
-                        while (calakt.after(calbegin)) {
-                            // Hole den aktuellen Kontostand
-                            String dynEnddate = formatter.format(calakt.getTime());
-                            String strKontostand = apicall.getAktKontostand(vecKonten.get(j).getId(), dynEnddate);
-                            Double kontostand = new Double(strKontostand);
-                            if (!gotAmount) {
-                                amount = kontostand;
-                                gotAmount = true;
-                            }
-                            if (kontostand > -0.001 && kontostand < 0.001) {
-                                calakt.add(Calendar.DATE, -1);
-                                continue;
-                            }
-                            // LOG.info("Aktkontostand = " +kontostand );
-                            calakt.add(Calendar.DATE, -1);
-                            sum = sum + (kontostand * count);
-                            sumcount = sumcount + count;
-                            count++;
-                        }
-                        if (count == 1) {
-                            // LOG.info("Count = " + count);
-                            // continue;
-                        }
-                        Double dayAvg = 0.0;
-                        if (sumcount != 0.0) {
-                            dayAvg = sum / sumcount;
-                        }
                         //String ruleErtrag="";
                         Integer ruleID;
                         Boolean ruleFromKonto;
@@ -138,35 +111,62 @@ public class ComputeRendite {
                            
                             ruleID = vecKonten.get(j).getRule_id();
                             ruleFromKonto=true;
-                         //   System.out.println("Rule_id von Konto");
+                            //System.out.println("Rule_id von Konto");
                          //   System.out.println("Rule_id =" +konto.get("rule_id"));
                             
                         }
-                        //System.out.println ("Rule_id = " + ruleID);
-                        String strErtrag="";
-                        if (! ruleFromKonto) {
-                                        strErtrag = apicall.getErtragWithRuleID(vecKonten.get(j).getId(), startdate, enddate,ruleID);
+                        Double sumErtrag = 0.0;
+                        Double sumProzent = 0.0;
+                        while (calakt.after(calbegin)) {
+                            // Hole den aktuellen Kontostand
+                            String dynEnddate = formatter.format(calakt.getTime());
+                            String strKontostand = apicall.getAktKontostand(vecKonten.get(j).getId(), dynEnddate);
+                            Double kontostand = new Double(strKontostand);
+                            if (!gotAmount) {
+                                amount = kontostand;
+                                gotAmount = true;
+                            }
+                            if (kontostand > -0.001 && kontostand < 0.001) {
+                                calakt.add(Calendar.DATE, -1);
+                                count++;
+                                continue;
+                            }
+                          //System.out.println ("Rule_id = " + ruleID);
+                            String strErtrag="";
+                            if (! ruleFromKonto) {
+                                            strErtrag = apicall.getErtragWithRuleID(vecKonten.get(j).getId(), dynEnddate, dynEnddate,ruleID);
+                            
+                            }
+                            else
+                            {
+                                strErtrag = apicall.getErtragWithRuleID(dynEnddate, dynEnddate,ruleID);
+                            }
+                            Double ertrag = new Double(strErtrag);
+                            Double prozent = ertrag / kontostand;
+                            sumErtrag = sumErtrag + ertrag;
+                            sumProzent = sumProzent + prozent;
+                            //LOG.info("Ertrag = " +ertrag + " Datum: " +dynEnddate );
+                            calakt.add(Calendar.DATE, -1);
+                            sum = sum + (kontostand * count);
+                            sumcount = sumcount + count;
+                            count++;
+                        } //Ende Date Schleife
+                        //LOG.info("Datum = " + enddate );
+                        //LOG.info("Summe Ertrag = " +sumErtrag );
+                        Double rendite = (sumProzent / count) * 365 * 100;
+
                         
-                        }
-                        else
-                        {
-                            strErtrag = apicall.getErtragWithRuleID(startdate, enddate,ruleID);
-                        }
-                        Double ertrag = new Double(strErtrag);
                        // String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
                         
-                        //LOG.info("Konto: "+ vecKonten.get(j).getId());
+                        //LOG.info("Konto: "+ vecKonten.get(j).getKontoname());
                         //LOG.info("Ertrag alt: "+strErtragold);
                         //LOG.info("Ertrag neu: "+strErtrag);
                         //Double ertrag =db.getKategorienAlleSummeWhere(startdate, enddate, where);
                         // LOG.info("Ertrag " + strErtrag);
-                        Double ertragProjahr = ertrag * (365.0 / count);
+                       // Double ertragProjahr = ertrag * (365.0 / count);
                         // LOG.info("ErtragproJahr =" + ertragProjahr);
-                        Double rendite = 0.0;
-                        if (dayAvg != 0.0) {
-                            // LOG.info("dayAvg =" + dayAvg);
-                            rendite = (ertragProjahr * 100) / dayAvg;
-                        }
+                       
+                        
 
                         // LOG.info("Rendite =" + rendite);
                         if (rendite > -900) {
