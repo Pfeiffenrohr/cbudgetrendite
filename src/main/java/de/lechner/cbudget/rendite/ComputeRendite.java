@@ -151,9 +151,9 @@ public class ComputeRendite {
                             sumcount = sumcount + count;
                             count++;
                         } //Ende Date Schleife
-                        LOG.info("Datum = " + enddate );
+                        //LOG.info("Datum = " + enddate );
                         //LOG.info("Sumcount = " +sumcount );
-                        LOG.info("count = " + count );
+                        // LOG.info("count = " + count );
                         Double rendite=0.0;
                         /*
                          * TODO Hack!!! Jahresvorschau nur bei P2p
@@ -170,8 +170,8 @@ public class ComputeRendite {
                         
                        // String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
                         
-                        LOG.info("Konto: "+ vecKonten.get(j).getKontoname());
-                        LOG.info("Rendite: "+rendite);
+                       // LOG.info("Konto: "+ vecKonten.get(j).getKontoname());
+                       // LOG.info("Rendite: "+rendite);
                         //LOG.info("Ertrag neu: "+strErtrag);
                         //Double ertrag =db.getKategorienAlleSummeWhere(startdate, enddate, where);
                         // LOG.info("Ertrag " + strErtrag);
@@ -211,7 +211,7 @@ public class ComputeRendite {
             formatedDuration = mins + " Minuten, " + secs + " Sekunden";
         } else {
             formatedDuration = duration + " Sekunden";
-        }
+        }  
         return formatedDuration;
     }
 
