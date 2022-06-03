@@ -124,7 +124,7 @@ public class ComputeRendite {
                             Double kontostand = new Double(strKontostand);
                             if (!gotAmount) {
                                 amount = kontostand;
-                                gotAmount = true;
+                                gotAmount = true; 
                             }
                             if (kontostand > -0.001 && kontostand < 0.001) {
                                 calakt.add(Calendar.DATE, -1);
