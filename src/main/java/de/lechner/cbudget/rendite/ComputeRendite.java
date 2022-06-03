@@ -116,7 +116,7 @@ public class ComputeRendite {
                             
                         }
                         Double sumErtrag = 0.0;
-                        Double sumProzent = 0.0;
+                        Double sumKontostand = 0.0;
                         while (calakt.after(calbegin)) {
                             // Hole den aktuellen Kontostand
                             String dynEnddate = formatter.format(calakt.getTime());
@@ -142,9 +142,9 @@ public class ComputeRendite {
                                 strErtrag = apicall.getErtragWithRuleID(dynEnddate, dynEnddate,ruleID);
                             }
                             Double ertrag = new Double(strErtrag);
-                            Double prozent = (ertrag / kontostand)*100;
+                            //Double prozent = (ertrag / kontostand)*100;
                             sumErtrag = sumErtrag + ertrag;
-                            sumProzent = sumProzent + prozent;
+                            sumKontostand = sumKontostand + kontostand;
                             //LOG.info("Ertrag = " +ertrag + " Datum: " +dynEnddate );
                             calakt.add(Calendar.DATE, -1);
                             sum = sum + (kontostand * count);
@@ -153,20 +153,32 @@ public class ComputeRendite {
                         } //Ende Date Schleife
                         //LOG.info("Datum = " + enddate );
                         //LOG.info("Sumcount = " +sumcount );
-                        // LOG.info("count = " + count );
-                        Double rendite=0.0;
+                        //LOG.info("Name  = " + vecKonten.get(j).getKontoname() );
+                        Double rendite =0.0;
+                        if (count > 0 && vecAnlagen.get(i).getName().equals("P2p"))
+                        {
+                         rendite=(sumErtrag/(sumKontostand/count))*100*(365/count);
+                         //LOG.info("rendite  = " + rendite + " sumErtrag "+ sumErtrag +" sumKontostand "+sumKontostand
+                         //        + "count "+count +" * 100 *(365/"+count);
+                        }
+                        else
+                        {
+                            rendite=(sumErtrag/(sumKontostand/count))*100;  
+                           // LOG.info("rendite  = " + rendite + " sumErtrag "+ sumErtrag +" sumKontostand "+sumKontostand
+                           //         + "count "+count +" * 100");
+                        }
                         /*
                          * TODO Hack!!! Jahresvorschau nur bei P2p
                          * Das sollte dringend parametriesiert werden!!!!        
                          */
-                              if (vecAnlagen.get(i).getName().equals("P2p"))
+                           /*   if (vecAnlagen.get(i).getName().equals("P2p"))
                               {
                                 rendite=  sumProzent * (365.0/count) ;
                               }
                               else
                               {
                                   rendite=sumProzent;
-                              }
+                              }*/
                         
                        // String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
                         
