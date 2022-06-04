@@ -154,13 +154,21 @@ public class ComputeRendite {
                         }
                         Double ertrag = new Double(strErtrag);
                        // String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
-                        
-                        //LOG.info("Konto: "+ vecKonten.get(j).getId());
+                        LOG.info("Datum: "+ enddate);
+                        LOG.info("Konto: "+ vecKonten.get(j).getKontoname());
                         //LOG.info("Ertrag alt: "+strErtragold);
                         //LOG.info("Ertrag neu: "+strErtrag);
                         //Double ertrag =db.getKategorienAlleSummeWhere(startdate, enddate, where);
-                        // LOG.info("Ertrag " + strErtrag);
-                        Double ertragProjahr = ertrag * (365.0 / count);
+                        LOG.info("Ertrag " + strErtrag);
+                        Double ertragProjahr=0.0;
+                        if (vecKonten.get(j).getKontoname().equals("P2p"))
+                        {
+                         ertragProjahr = ertrag * (365.0 / count);
+                        }
+                        else
+                        {
+                            ertragProjahr = ertrag;
+                        }
                         // LOG.info("ErtragproJahr =" + ertragProjahr);
                         Double rendite = 0.0;
                         if (dayAvg != 0.0) {
@@ -168,7 +176,7 @@ public class ComputeRendite {
                             rendite = (ertragProjahr * 100) / dayAvg;
                         }
 
-                        // LOG.info("Rendite =" + rendite);
+                         LOG.info("Rendite =" + rendite);
                         if (rendite > -900) {
                             apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate, amount, renditeId);
                             anzahl ++;
