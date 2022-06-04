@@ -3,5 +3,5 @@ cbudgetrendite:
   restart: always
   environment:
       inputdir: /var/lib/exchange/
-      budgetserverhost: 192.168.2.28
-      budgetserverport: 8092
+      budgetserverhost: 192.168.2.29
+      budgetserverport: 8092 
