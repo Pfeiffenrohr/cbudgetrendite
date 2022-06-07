@@ -35,7 +35,7 @@ public class ComputeRendite {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calend = Calendar.getInstance();
         Calendar calbegin = Calendar.getInstance();
-        calAnfang.add(Calendar.YEAR, -1);
+        calAnfang.add(Calendar.YEAR, -16);
         List<Anlage> vecAnlagen = apicall.getAllAnalgen();
         List<Konto> vecKonten = apicall.getAllKonten();
         long timeBegin = System.currentTimeMillis();
