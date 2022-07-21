@@ -160,7 +160,7 @@ public class ComputeRendite {
                         //LOG.info("Ertrag neu: "+strErtrag);
                         //Double ertrag =db.getKategorienAlleSummeWhere(startdate, enddate, where);
                         //LOG.info("Ertrag " + strErtrag);
-                        Double ertragProjahr=0.0;
+                        double ertragProjahr=0.0;
                         if (vecAnlagen.get(i).getName().equals("P2p"))
                         {
                          ertragProjahr = ertrag * (365.0 / count);
