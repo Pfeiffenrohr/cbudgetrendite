@@ -23,9 +23,9 @@ import org.slf4j.LoggerFactory;
 
 @Service
 public class APIcall {
-    @Value("${budgetserver.host:localhost}")
+    @Value("${budgetserver.host}")
     private String host;
-    @Value("${budgetserver.port:8092}")
+    @Value("${budgetserver.port}")
     private String port;
     private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
     RestTemplate restTemplate = new RestTemplate();
