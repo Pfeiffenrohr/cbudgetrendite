@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,18 +22,20 @@ import org.slf4j.LoggerFactory;
 
 @Service
 public class APIcall {
-    @Value("${budgetserver.host}")
+    @Value("${budgetserver.host:localhost}")
     private String host;
-    @Value("${budgetserver.port}")
+    @Value("${budgetserver.port:8092}")
     private String port;
     private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
-    
+    RestTemplate restTemplate = new RestTemplate();
     public List<Anlage> getAllAnalgen() {
      //   LOG.info("Start getAllAnlagen");
      //   LOG.info("Host = "+ host);
-     //   LOG.info("Port = "+ port);        
+     //   LOG.info("Port = "+ port);
+     if (host == null ) {host = "localhost";}
+     if (port == null ) {port = "8092";}
         List<Anlage> list = new ArrayList<Anlage>();
-        RestTemplate restTemplate = new RestTemplate();
+
         UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host(host).port(port)
                 .path("//anlagen").build();
         String allAnlagen = uriComponents.toUriString();
@@ -50,9 +53,10 @@ public class APIcall {
     public List<Konto> getAllKonten() {
       //  LOG.info("Start getAllAnlagen");
        // LOG.info("Host = "+ host);
-       // LOG.info("Port = "+ port);        
+       // LOG.info("Port = "+ port);
+        if (host == null ) {host = "localhost";}
+        if (port == null ) {port = "8092";}
         List<Konto> list = new ArrayList<Konto>();
-        RestTemplate restTemplate = new RestTemplate();
         UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host(host).port(port)
                 .path("//kontos").build();
         String allKonten = uriComponents.toUriString();

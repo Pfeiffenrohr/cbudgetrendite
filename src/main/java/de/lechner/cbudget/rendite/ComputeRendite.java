@@ -35,7 +35,7 @@ public class ComputeRendite {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calend = Calendar.getInstance();
         Calendar calbegin = Calendar.getInstance();
-        calAnfang.add(Calendar.YEAR, -16);
+        calAnfang.add(Calendar.YEAR, -1);
         List<Anlage> vecAnlagen = apicall.getAllAnalgen();
         List<Konto> vecKonten = apicall.getAllKonten();
         long timeBegin = System.currentTimeMillis();
@@ -197,7 +197,6 @@ public class ComputeRendite {
         }
         return anzahl;
     }
-
     private String computeDuration(Integer duration) {
         String formatedDuration = "";
         if (duration > 59) {
