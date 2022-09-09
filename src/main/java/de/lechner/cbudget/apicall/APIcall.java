@@ -2,6 +2,7 @@ package de.lechner.cbudget.apicall;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -40,9 +41,7 @@ public class APIcall {
         if (response.hasBody()) {
 
             Anlage[] anlage = response.getBody();
-            for (int i = 0; i < anlage.length; i++) {
-                list.add(anlage[i]);
-            }
+            Collections.addAll(list, anlage);
         }
         return list;
     }
@@ -60,9 +59,7 @@ public class APIcall {
         if (response.hasBody()) {
 
             Konto[] konto = response.getBody();
-            for (int i = 0; i < konto.length; i++) {
-                list.add(konto[i]);
-            }
+            Collections.addAll(list, konto);
         }
         return list;
     }

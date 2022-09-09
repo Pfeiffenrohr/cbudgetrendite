@@ -60,7 +60,7 @@ import java.util.Vector;
                 if (debug) System.out.println("select command from rules where rule_id = "+rule_id);
                 res = stmt.executeQuery();
                 while (res.next()) {                    
-                    return( (String) res.getString("command"));
+                    return res.getString("command");
                     
                 }
             } catch (SQLException e) {

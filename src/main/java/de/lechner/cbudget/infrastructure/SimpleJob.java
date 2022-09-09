@@ -10,7 +10,6 @@ public class SimpleJob implements Job{
  
     @Autowired
     private SimpleService service;
- 
     @Override 
     public void execute(JobExecutionContext jobExecutionContext) {
         service.processData();
