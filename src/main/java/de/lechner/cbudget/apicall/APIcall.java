@@ -2,8 +2,10 @@ package de.lechner.cbudget.apicall;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,13 +28,15 @@ public class APIcall {
     @Value("${budgetserver.port}")
     private String port;
     private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
-    
+    RestTemplate restTemplate = new RestTemplate();
     public List<Anlage> getAllAnalgen() {
      //   LOG.info("Start getAllAnlagen");
      //   LOG.info("Host = "+ host);
-     //   LOG.info("Port = "+ port);        
+     //   LOG.info("Port = "+ port);
+     if (host == null ) {host = "localhost";}
+     if (port == null ) {port = "8092";}
         List<Anlage> list = new ArrayList<Anlage>();
-        RestTemplate restTemplate = new RestTemplate();
+
         UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host(host).port(port)
                 .path("//anlagen").build();
         String allAnlagen = uriComponents.toUriString();
@@ -40,9 +44,7 @@ public class APIcall {
         if (response.hasBody()) {
 
             Anlage[] anlage = response.getBody();
-            for (int i = 0; i < anlage.length; i++) {
-                list.add(anlage[i]);
-            }
+            Collections.addAll(list, anlage);
         }
         return list;
     }
@@ -50,9 +52,10 @@ public class APIcall {
     public List<Konto> getAllKonten() {
       //  LOG.info("Start getAllAnlagen");
        // LOG.info("Host = "+ host);
-       // LOG.info("Port = "+ port);        
+       // LOG.info("Port = "+ port);
+        if (host == null ) {host = "localhost";}
+        if (port == null ) {port = "8092";}
         List<Konto> list = new ArrayList<Konto>();
-        RestTemplate restTemplate = new RestTemplate();
         UriComponents uriComponents = UriComponentsBuilder.newInstance().scheme("http").host(host).port(port)
                 .path("//kontos").build();
         String allKonten = uriComponents.toUriString();
@@ -60,9 +63,7 @@ public class APIcall {
         if (response.hasBody()) {
 
             Konto[] konto = response.getBody();
-            for (int i = 0; i < konto.length; i++) {
-                list.add(konto[i]);
-            }
+            Collections.addAll(list, konto);
         }
         return list;
     }
@@ -160,7 +161,7 @@ public class APIcall {
                  .queryParam("konto", konto)
                  .build();
          String uri=uriComponents.toUriString();
-        // LOG.debug("URI = "+ uri);
+         //LOG.info("URI = "+ uri);
          ResponseEntity<Rendite> response = restTemplate.getForEntity(uri, Rendite.class);
          if (response.hasBody()) {
 

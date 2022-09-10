@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
     
-  //TODO Klasse ist notwendig, da ich nicht weiß, wie ich einen String in JPA ausführe :( Sehr schmutzig
+  //TODO Klasse ist notwendig, da ich nicht wei, wie ich einen String in JPA ausfhre :( Sehr schmutzig
     public class DBHelper {
         
         public Connection con = null;
@@ -60,7 +60,7 @@ import java.util.Vector;
                 if (debug) System.out.println("select command from rules where rule_id = "+rule_id);
                 res = stmt.executeQuery();
                 while (res.next()) {                    
-                    return( (String) res.getString("command"));
+                    return res.getString("command");
                     
                 }
             } catch (SQLException e) {

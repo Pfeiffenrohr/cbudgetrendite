@@ -35,15 +35,15 @@ public class ComputeRendite {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calend = Calendar.getInstance();
         Calendar calbegin = Calendar.getInstance();
-        calAnfang.add(Calendar.YEAR, -1);
+        calAnfang.add(Calendar.YEAR, -2);
         List<Anlage> vecAnlagen = apicall.getAllAnalgen();
         List<Konto> vecKonten = apicall.getAllKonten();
         long timeBegin = System.currentTimeMillis();
         calend.add(Calendar.DATE, -1);
         calbegin.add(Calendar.YEAR, -1);
         while (calend.after(calAnfang)) {
-            /*LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " +
-            formatter.format(calend.getTime()));*/
+            //LOG.info("Berechne Ertrag von " + formatter.format(calbegin.getTime()) +" bis " +
+            //formatter.format(calend.getTime()));
             anzahl=anzahl+renditeProTag(vecAnlagen, vecKonten, calend, calbegin);
             calend.add(Calendar.DATE, -1);
             calbegin.add(Calendar.DATE, -1);
@@ -72,9 +72,8 @@ public class ComputeRendite {
             for (int j = 0; j < vecKonten.size(); j++) {
 
                 if (vecKonten.get(j).getMode().equals(vecAnlagen.get(i).getName())) {
-                    // LOG.info("Berechne Konto " + vecKonten.get(j).getKontoname() + " fuer Anlage
-                    // "
-                    // + vecAnlagen.get(i).getName());
+                    /* LOG.info("Berechne Konto " + vecKonten.get(j).getKontoname() + " fuer Anlage "
+                     + vecAnlagen.get(i).getName());*/
                     int count = 1;
                     int sumcount = 0;
                     Double sum = 0.0;
@@ -160,7 +159,7 @@ public class ComputeRendite {
                         //LOG.info("Ertrag neu: "+strErtrag);
                         //Double ertrag =db.getKategorienAlleSummeWhere(startdate, enddate, where);
                         //LOG.info("Ertrag " + strErtrag);
-                        Double ertragProjahr=0.0;
+                        double ertragProjahr=0.0;
                         if (vecAnlagen.get(i).getName().equals("P2p"))
                         {
                          ertragProjahr = ertrag * (365.0 / count);
@@ -176,10 +175,11 @@ public class ComputeRendite {
                             rendite = (ertragProjahr * 100) / dayAvg;
                         }
 
-                        // LOG.info("Rendite =" + rendite);
+                        //LOG.info("Rendite =" + rendite);
                         if (rendite > -900) {
                             apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate, amount, renditeId);
                             anzahl ++;
+                           // LOG.info("Insert Rebdite  "+rendite );
                         }
                         // } else {
                         // LOG.info("Keine Rendite,. da kein Ertrag ");
@@ -187,9 +187,9 @@ public class ComputeRendite {
 
                     } else {
                         /*
-                         * LOG.info("Already computed" + vecKonten.get(j).getKontoname() +
-                         * " fuer Anlage " + vecAnlagen.get(i).getName());
-                         */
+                          LOG.info("Already computed" + vecKonten.get(j).getKontoname() +
+                          " fuer Anlage " + vecAnlagen.get(i).getName());
+                        */
                     }
                 }
             }
@@ -197,7 +197,6 @@ public class ComputeRendite {
         }
         return anzahl;
     }
-
     private String computeDuration(Integer duration) {
         String formatedDuration = "";
         if (duration > 59) {
