@@ -152,6 +152,7 @@ public class ComputeRendite {
                             strErtrag = apicall.getErtragWithRuleID(startdate, enddate,ruleID);
                         }
                         Double ertrag = new Double(strErtrag);
+
                        // String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
                         //LOG.info("Datum: "+ enddate);
                         //LOG.info("Konto: "+ vecKonten.get(j).getKontoname());

@@ -111,7 +111,6 @@ public class APIcall {
      }
     
     public String getErtragWithRuleID( Integer konto, String startdate, String enddate, Integer ruleId) {
-         RestTemplate restTemplate = new RestTemplate();
          UriComponents uriComponents = UriComponentsBuilder.newInstance()
                  .scheme("http").host(host).port(port).path("/transaction_get_sum")
                  .queryParam("startdate", startdate)
