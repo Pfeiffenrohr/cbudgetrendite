@@ -64,29 +64,29 @@ public class ComputeRendite {
 
             // LOG.info("Konto " + vecKonten.get(i).getKontoname());
         }
-        for (int i = 0; i < vecAnlagen.size(); i++) {
-            if (vecAnlagen.get(i).getRendite().equals("N")) {
+        for (Anlage anlage : vecAnlagen) {
+            if (anlage.getRendite().equals("N")) {
                 // LOG.debug("Keine Berechnung Anlage "+vecAnlagen.get(i).getName() );
                 continue;
             }
-            for (int j = 0; j < vecKonten.size(); j++) {
+            for (Konto konto : vecKonten) {
 
-                if (vecKonten.get(j).getMode().equals(vecAnlagen.get(i).getName())) {
+                if (konto.getMode().equals(anlage.getName())) {
                     /* LOG.info("Berechne Konto " + vecKonten.get(j).getKontoname() + " fuer Anlage "
                      + vecAnlagen.get(i).getName());*/
                     int count = 1;
                     int sumcount = 0;
-                    Double sum = 0.0;
-                    Double amount = 0.0;
-                    Boolean gotAmount = false;
+                    double sum = 0.0;
+                    double amount = 0.0;
+                    boolean gotAmount = false;
                     Integer renditeId;
                     calakt = (Calendar) calend.clone();
-                    Rendite renditecall = apicall.getRenditeByDateAndName(vecKonten.get(j).getId(), enddate);
+                    Rendite renditecall = apicall.getRenditeByDateAndName(konto.getId(), enddate);
                  /*  if (vecKonten.get(j).getId()==27)
                    {
                        LOG.info("Renditecall = "+ renditecall.getAmount());
                    }*/
-                    
+
                     if (renditecall == null || renditecall.getDirty() != 0) {
                         // LOG.info("Dirty = " + renditecall.getDirty());
                         if (renditecall != null) {
@@ -97,8 +97,8 @@ public class ComputeRendite {
                         while (calakt.after(calbegin)) {
                             // Hole den aktuellen Kontostand
                             String dynEnddate = formatter.format(calakt.getTime());
-                            String strKontostand = apicall.getAktKontostand(vecKonten.get(j).getId(), dynEnddate);
-                            Double kontostand = new Double(strKontostand);
+                            String strKontostand = apicall.getAktKontostand(konto.getId(), dynEnddate);
+                            double kontostand = new Double(strKontostand);
                             if (!gotAmount) {
                                 amount = kontostand;
                                 gotAmount = true;
@@ -117,59 +117,52 @@ public class ComputeRendite {
                             // LOG.info("Count = " + count);
                             // continue;
                         }
-                        Double dayAvg = 0.0;
+                        double dayAvg = 0.0;
                         if (sumcount != 0.0) {
                             dayAvg = sum / sumcount;
                         }
                         //String ruleErtrag="";
                         Integer ruleID;
-                        Boolean ruleFromKonto;
-                        if ((Integer)vecKonten.get(j).getRule_id() == null ||  (Integer)vecKonten.get(j).getRule_id() == -1 || (Integer)vecKonten.get(j).getRule_id() == 0 )
-                        {
-                           ruleID = vecAnlagen.get(i).getRule_id();
-                           // System.out.println("Rule_id von Anlage");
-                           // System.out.println("Konto id = "+j + " Name "+ vecKonten.get(j).getKontoname());
-                           // System.out.println("RuleID from Konto: " + vecKonten.get(j).getRule_id());
-                           ruleFromKonto=false;
-                        }
-                        else
-                        { 
-                           
-                            ruleID = vecKonten.get(j).getRule_id();
-                            ruleFromKonto=true;
-                         //   System.out.println("Rule_id von Konto");
-                         //   System.out.println("Rule_id =" +konto.get("rule_id"));
-                            
+                        boolean ruleFromKonto;
+                        if ((Integer) konto.getRule_id() == null || (Integer) konto.getRule_id() == -1 || (Integer) konto.getRule_id() == 0) {
+                            ruleID = anlage.getRule_id();
+                            // System.out.println("Rule_id von Anlage");
+                            // System.out.println("Konto id = "+j + " Name "+ vecKonten.get(j).getKontoname());
+                            // System.out.println("RuleID from Konto: " + vecKonten.get(j).getRule_id());
+                            ruleFromKonto = false;
+                        } else {
+
+                            ruleID = konto.getRule_id();
+                            ruleFromKonto = true;
+                            //   System.out.println("Rule_id von Konto");
+                            //   System.out.println("Rule_id =" +konto.get("rule_id"));
+
                         }
                         //System.out.println ("Rule_id = " + ruleID);
-                        String strErtrag="";
-                        if (! ruleFromKonto) {
-                                        strErtrag = apicall.getErtragWithRuleID(vecKonten.get(j).getId(), startdate, enddate,ruleID);
-                        
-                        }
-                        else
-                        {
-                            strErtrag = apicall.getErtragWithRuleID(startdate, enddate,ruleID);
+                        String strErtrag = "";
+                        if (!ruleFromKonto) {
+                            strErtrag = apicall.getErtragWithRuleID(konto.getId(), startdate, enddate, ruleID);
+
+                        } else {
+                            strErtrag = apicall.getErtragWithRuleID(startdate, enddate, ruleID);
                         }
                         Double ertrag = new Double(strErtrag);
-                       // String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
+
+                        // String strErtragold = apicall.getErtrag(vecKonten.get(j).getId(), startdate, enddate);
                         //LOG.info("Datum: "+ enddate);
                         //LOG.info("Konto: "+ vecKonten.get(j).getKontoname());
                         //LOG.info("Ertrag alt: "+strErtragold);
                         //LOG.info("Ertrag neu: "+strErtrag);
                         //Double ertrag =db.getKategorienAlleSummeWhere(startdate, enddate, where);
                         //LOG.info("Ertrag " + strErtrag);
-                        double ertragProjahr=0.0;
-                        if (vecAnlagen.get(i).getName().equals("P2p"))
-                        {
-                         ertragProjahr = ertrag * (365.0 / count);
-                        }
-                        else
-                        {
+                        double ertragProjahr = 0.0;
+                        if (anlage.getName().equals("P2p")) {
+                            ertragProjahr = ertrag * (365.0 / count);
+                        } else {
                             ertragProjahr = ertrag;
                         }
                         // LOG.info("ErtragproJahr =" + ertragProjahr);
-                        Double rendite = 0.0;
+                        double rendite = 0.0;
                         if (dayAvg != 0.0) {
                             // LOG.info("dayAvg =" + dayAvg);
                             rendite = (ertragProjahr * 100) / dayAvg;
@@ -177,9 +170,9 @@ public class ComputeRendite {
 
                         //LOG.info("Rendite =" + rendite);
                         if (rendite > -900) {
-                            apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate, amount, renditeId);
-                            anzahl ++;
-                           // LOG.info("Insert Rebdite  "+rendite );
+                            apicall.insertRendite(konto.getId(), rendite, enddate, amount, renditeId);
+                            anzahl++;
+                            // LOG.info("Insert Rebdite  "+rendite );
                         }
                         // } else {
                         // LOG.info("Keine Rendite,. da kein Ertrag ");

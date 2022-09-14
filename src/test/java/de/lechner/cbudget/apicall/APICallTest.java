@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -60,5 +61,13 @@ public class APICallTest {
         assertThat(returnedKonto.get(0).getId()).isEqualTo(1);
         assertThat(returnedKonto.get(0).getKontoname()).isEqualTo("Name");
     }
+    void getErtragWithRuleIDTest() {
 
+        Mockito.when(restTemplate.getForObject(Mockito.anyString(),String.class))
+                        .thenReturn(new String("500" ));
+
+        String result = apicall.getErtragWithRuleID(23,"2022-04-03","2022-04-04",3);
+        assertThat(result.equals("500"));
+
+    }
 }
