@@ -9,8 +9,7 @@ package de.lechner.cbudget.entities;
         private String rendite;
         private Integer rule_id;
         
-        
-        
+
         public Anlage(Integer id, String name, String beschreibung, String rendite, Integer rule_id) {
             super();
             this.id = id;
