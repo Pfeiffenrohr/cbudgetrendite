@@ -18,8 +18,9 @@ public class SimpleService {
     ComputeRenditeBatch crb;
     public void processData() {
 
-        //cr.rendite();
+        cr.rendite();
         crb.compute();
+
 
     }
 }
