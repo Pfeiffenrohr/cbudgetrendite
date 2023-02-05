@@ -29,11 +29,13 @@ public class ComputeRenditeBatch {
         OrderRendite orderRendite = apicallbatch.getOrderRendite();
         if (orderRendite.getFinished() == 0 )
         {
-            LOG.info("Starte Berechung Rendite");
+            LOG.info("Starte Berechung Rendite Batch");
             computeRendite(orderRendite);
+            orderRendite.setFinished(1);
+            apicallbatch.updateOrderRendite(orderRendite);
+            LOG.info("Berechung Rendite Batch fertig");
         }
-        orderRendite.setFinished(1);
-        apicallbatch.updateOrderRendite(orderRendite);
+
     }
 
     private void computeRendite(OrderRendite orderRendite) {
@@ -58,14 +60,14 @@ public class ComputeRenditeBatch {
         }
         for (int i = 0; i < vecAnlagen.size(); i++) {
             if (vecAnlagen.get(i).getRendite().equals("N")) {
-                 LOG.debug("Keine Berechnung Anlage "+vecAnlagen.get(i).getName() );
+                // LOG.debug("Keine Berechnung Anlage "+vecAnlagen.get(i).getName() );
                 continue;
             }
             for (int j = 0; j < vecKonten.size(); j++) {
 
                 if (vecKonten.get(j).getMode().equals(vecAnlagen.get(i).getName())) {
-                    LOG.info("Berechne Konto " + vecKonten.get(j).getKontoname() + " fuer Anlage "
-                     + vecAnlagen.get(i).getName());
+                    //LOG.info("Berechne Konto " + vecKonten.get(j).getKontoname() + " fuer Anlage "
+                    // + vecAnlagen.get(i).getName());
                     int count = 1;
                     int sumcount = 0;
                     Double sum = 0.0;
@@ -166,7 +168,7 @@ public class ComputeRenditeBatch {
                         if (rendite > -900) {
                            // apicall.insertRendite(vecKonten.get(j).getId(), rendite, enddate, amount, renditeId);
                             anzahl ++;
-                             LOG.info("Insert Rebdite  Konto: "+ vecKonten.get(j).getKontoname()+" Rendite:" +rendite +" Ertrag:"+strErtrag +" Durchschnitt "+dayAvg);
+                            // LOG.info("Insert Rebdite  Konto: "+ vecKonten.get(j).getKontoname()+" Rendite:" +rendite +" Ertrag:"+strErtrag +" Durchschnitt "+dayAvg);
                             //rendite = ertragProzent, Ertrag = ertrag, dayAvg = wertProTag
                              apicallbatch.insertRenditeBatch(vecKonten.get(j).getId(),ertrag,rendite,dayAvg);
                         }
