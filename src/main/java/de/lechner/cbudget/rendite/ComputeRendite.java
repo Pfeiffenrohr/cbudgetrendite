@@ -24,7 +24,7 @@ public class ComputeRendite {
   
 
     @Autowired
-    APIcall apicall = new APIcall();
+    APIcall apicall;
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
 

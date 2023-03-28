@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 public class ComputeRenditeBatch {
     @Autowired
-    APIcall apicall = new APIcall();
+    APIcall apicall;
     @Autowired
-    APIcallBatch apicallbatch = new APIcallBatch();
+    APIcallBatch apicallbatch;
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
 

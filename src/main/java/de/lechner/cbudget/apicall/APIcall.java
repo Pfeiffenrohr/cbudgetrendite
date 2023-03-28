@@ -70,7 +70,9 @@ public class APIcall {
     
     public String getAktKontostand( Integer konto, String enddate) {
        // LOG.info("Start getAktKonotstand");
-           
+        // LOG.info("Port = "+ port);
+        if (host == null ) {host = "localhost";}
+        if (port == null ) {port = "8092";}
         RestTemplate restTemplate = new RestTemplate();
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http").host(host).port(port).path("/transaction_get_sum")
@@ -90,7 +92,9 @@ public class APIcall {
     
     public String getErtrag( Integer konto, String startdate, String enddate) {
         // LOG.info("Start getAktKonotstand");
-            
+        // LOG.info("Port = "+ port);
+        if (host == null ) {host = "localhost";}
+        if (port == null ) {port = "8092";}
          RestTemplate restTemplate = new RestTemplate();
          UriComponents uriComponents = UriComponentsBuilder.newInstance()
                  .scheme("http").host(host).port(port).path("/transaction_get_sum")
@@ -111,7 +115,10 @@ public class APIcall {
      }
     
     public String getErtragWithRuleID( Integer konto, String startdate, String enddate, Integer ruleId) {
-         UriComponents uriComponents = UriComponentsBuilder.newInstance()
+        // LOG.info("Port = "+ port);
+        if (host == null ) {host = "localhost";}
+        if (port == null ) {port = "8092";}
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
                  .scheme("http").host(host).port(port).path("/transaction_get_sum")
                  .queryParam("startdate", startdate)
                  .queryParam("enddate", enddate)
@@ -131,6 +138,9 @@ public class APIcall {
     
     //same without konto
     public String getErtragWithRuleID(String startdate, String enddate, Integer ruleId) {
+        // LOG.info("Port = "+ port);
+        if (host == null ) {host = "localhost";}
+        if (port == null ) {port = "8092";}
         RestTemplate restTemplate = new RestTemplate();
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
                 .scheme("http").host(host).port(port).path("/transaction_get_sum")
@@ -151,7 +161,9 @@ public class APIcall {
     
     public Rendite getRenditeByDateAndName( Integer konto, String date) {
         // LOG.info("Start getAktKonotstand");
-            
+        // LOG.info("Port = "+ port);
+        if (host == null ) {host = "localhost";}
+        if (port == null ) {port = "8092";}
          RestTemplate restTemplate = new RestTemplate();
          Rendite rendite = new Rendite();
          UriComponents uriComponents = UriComponentsBuilder.newInstance()
@@ -183,7 +195,10 @@ public class APIcall {
      }
     
     public void insertRendite( Integer konto, Double value, String datum, Double amount, Integer renditeId) {
-       Rendite rendite = new Rendite();
+        // LOG.info("Port = "+ port);
+        if (host == null ) {host = "localhost";}
+        if (port == null ) {port = "8092";}
+        Rendite rendite = new Rendite();
        if (renditeId != null)
        {
        rendite.setId(renditeId);
