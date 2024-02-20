@@ -19,9 +19,9 @@ import java.util.List;
 @Service
 public class ComputeRenditeBatch {
     @Autowired
-    APIcall apicall = new APIcall();
+    APIcall apicall;
     @Autowired
-    APIcallBatch apicallbatch = new APIcallBatch();
+    APIcallBatch apicallbatch;
 
     private static final Logger LOG = LoggerFactory.getLogger(SimpleService.class);
 
@@ -34,6 +34,7 @@ public class ComputeRenditeBatch {
             orderRendite.setFinished(1);
             apicallbatch.updateOrderRendite(orderRendite);
             LOG.info("Berechung Rendite Batch fertig");
+            apicallbatch.sendMessageToTalk("[Rendite] Batchberechnung ist fertig");
         }
 
     }
