@@ -34,6 +34,7 @@ public class ComputeRenditeBatch {
             orderRendite.setFinished(1);
             apicallbatch.updateOrderRendite(orderRendite);
             LOG.info("Berechung Rendite Batch fertig");
+            apicallbatch.sendMessageToTalk("[Rendite] Batchberechnung ist fertig");
         }
 
     }

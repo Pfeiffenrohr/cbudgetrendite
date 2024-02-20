@@ -11,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,13 +51,11 @@ public class RenditeKontoAnlageTest {
         calbegin.add(Calendar.DATE, -5);
 
         RenditeKontoAnlage renditeKontoAnlage = new RenditeKontoAnlage();
-        Mockito.when(apicall.getAktKontostand(Mockito.anyInt(),Mockito.anyString())).thenReturn("42","43","44","45","46");
-        Mockito.when(apicall.getErtragWithRuleID(Mockito.anyString(),Mockito.anyString(),Mockito.anyInt())).thenReturn("5");
-      //  Mockito.when(apicall.getErtragWithRuleID(Mockito.anyInt(),Mockito.anyString(),Mockito.anyString(),Mockito.anyInt())).thenReturn("5");
-       /* Mockito.when(restTemplate.getForObject(Mockito.anyString(), String.class))
-                .thenReturn("42");*/
+        Mockito.when(apicall.getAktKontostand(Mockito.anyInt(),Mockito.anyString())).thenReturn("100","101","102","103","104");
+        Mockito.when(apicall.getErtragWithRuleID(Mockito.anyString(),Mockito.anyString(),Mockito.anyInt())).thenReturn("4");
         RenditeBatch  rb = renditeKontoAnlage.computeRendite(apicall,anlage,konto,calend,calbegin);
         System.out.println("Done");
-
+        assertTrue(rb.getErtrag()==4.0);
+        //assertThat(5.0,rb.getErtrag());
     }
 }
