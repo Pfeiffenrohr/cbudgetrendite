@@ -37,7 +37,7 @@ public class ComputeRenditeBatch {
             LOG.info("Berechung Rendite Batch fertig");
             long end = System.currentTimeMillis();
             long diff_in_minute = ( end - start )/(60*1000);
-            apicallbatch.sendMessageToTalk("@Richard [Rendite] Batchberechnung ist fertig. (Dauer " + diff_in_minute +" min)");
+            apicallbatch.sendMessageToTalk("@richard [Rendite] Batchberechnung ist fertig. (Dauer " + diff_in_minute +" min)");
         }
 
     }
