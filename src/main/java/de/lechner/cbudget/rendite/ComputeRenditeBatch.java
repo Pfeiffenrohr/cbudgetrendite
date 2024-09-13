@@ -29,7 +29,7 @@ public class ComputeRenditeBatch {
         OrderRendite orderRendite = apicallbatch.getOrderRendite();
         if (orderRendite.getFinished() == 0 )
         {
-            LOG.info("Starte Berechung Rendite Batch");
+            LOG.info("Starte Berechung Rendite Batch ");
             long start = System.currentTimeMillis();
             computeRendite(orderRendite);
             orderRendite.setFinished(1);
