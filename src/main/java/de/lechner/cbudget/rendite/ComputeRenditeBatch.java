@@ -30,11 +30,14 @@ public class ComputeRenditeBatch {
         if (orderRendite.getFinished() == 0 )
         {
             LOG.info("Starte Berechung Rendite Batch");
+            long start = System.currentTimeMillis();
             computeRendite(orderRendite);
             orderRendite.setFinished(1);
             apicallbatch.updateOrderRendite(orderRendite);
             LOG.info("Berechung Rendite Batch fertig");
-            apicallbatch.sendMessageToTalk("[Rendite] Batchberechnung ist fertig");
+            long end = System.currentTimeMillis();
+            long diff_in_minute = ( end - start )/(60*1000);
+            apicallbatch.sendMessageToTalk("@Richard [Rendite] Batchberechnung ist fertig. (Dauer " + diff_in_minute +" min)");
         }
 
     }
