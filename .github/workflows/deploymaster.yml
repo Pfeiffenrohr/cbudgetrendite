@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout
+      - uses: actions/checkout@v3
       - name: login
         run:
           echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }}
