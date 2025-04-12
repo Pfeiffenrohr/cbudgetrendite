@@ -1,1 +1,1 @@
-Just 
+Computes a rendite 
